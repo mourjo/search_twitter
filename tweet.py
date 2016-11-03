@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 import twitter
+from util import is_retweet_with_hashtag
+from functools import partial
 
 
 class TwitterClient:
@@ -19,12 +21,8 @@ class TwitterClient:
         "Remove unretweeted tweets and tweets not containing the hashtag.\
         (For some reason the search API does not always return\
         correct results.)"
-        filter_fn = (lambda tweet:
-                     (any(htag["text"].lower() == hashtag
-                          for htag in tweet["entities"]["hashtags"])
-                      and tweet["retweet_count"] > 0))
-
-        return filter(filter_fn, tweets["statuses"])
+        return filter(partial(is_retweet_with_hashtag, hashtag),
+                      tweets["statuses"])
 
     def fetch_retweets_with_hashtag(self, hashtag, n=100):
         "Search retweets from using the Twitter REST API which have a hashtag."

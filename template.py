@@ -18,15 +18,28 @@ def get_html_tweet(tweet):
                           tweet_id)
 
 
-def render_html_page(tweet_objects):
+def render_html_page(tweet_objects, num):
     "Render the full html page with tweets as blockquotes."
     tweet_htmls = map(get_html_tweet, tweet_objects)
     rendered_tweets = '</div>\n\n<div>'.join(tweet_htmls).encode('utf-8')
-    full_page_html = [(raw_template % rendered_tweets)]
+    select_options = []
+    found = False
+    for i in [25, 50, 75]:
+        if i == num:
+            found = True
+            select_options.append('<option selected="selected">%s</option>'
+                                  % str(i))
+        else:
+            select_options.append('<option>%s</option>' % str(i))
+    if not found:
+        select_options.append('<option selected="selected">%s</option>'
+                              % str(num))
+    full_page_html = [(html_template % {"options": '\n'.join(select_options),
+                                        "tweets": rendered_tweets})]
     return full_page_html
 
 
-raw_template = '''
+html_template = '''
 <!DOCTYPE html>
 <html>
     <head>
@@ -87,10 +100,17 @@ raw_template = '''
                         </div>
                     </div>
                     <div class="inner cover" style="padding-top: 0px;">
-
+                        <div class="col-md-12" style="vertical-align: middle; text-align: center; ">
+                            <h2 style="margin-top:0px">Retweeted tweets containing #custserv</h2>
+                            <form method="get" action=""  class="form-inline" style="padding-bottom: 30px; font-size: 15px">
+                                <i>Number of tweets: &nbsp;</i>
+                                <select class="dropdown-toggle" name="num" style="color:#1D3956;" onchange="this.form.submit();">
+                                    %(options)s
+                                </select>
+                            </form>
+                        </div>
                         <div class="col-md-12" style="vertical-align: middle; text-align: center;">
-                        <h2 style="margin-top:0px">Retweeted tweets containing #custserv</h2>
-                        <div>%s</div>
+                        <div>%(tweets)s</div>
                         </div>
                     </div>
                     <div class="mastfoot">
