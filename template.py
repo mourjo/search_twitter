@@ -1,27 +1,24 @@
 #! /usr/bin/env python
 def get_html_tweet(tweet):
     "Convert a tweet dictionary to an HTML blockquote."
-    tweet_templ = '''<blockquote class="twitter-tweet tw-align-center">
-                        %s
-                        <br/>
-                        <a href="https://twitter.com/%s/status/%s">
-                            https://twitter.com/%s/status/%s
-                        </a>
-                    </blockquote>'''
-    tweet_id = tweet["id_str"]
-    tweet_text = tweet["text"]
-    screen_name = tweet["user"]["screen_name"]
-    return tweet_templ % (tweet_text,
-                          screen_name,
-                          tweet_id,
-                          screen_name,
-                          tweet_id)
+    # Construct the Twitter status URL and put it in a <a> tag
+    # and let Twitter's Javascript load the full tweet at the
+    # client side.
+    return tweet_template % {"tweet_text": tweet["text"],
+                             "screen_name": tweet["user"]["screen_name"],
+                             "tweet_id": tweet["id_str"]}
 
 
 def render_html_page(tweet_objects, num):
     "Render the full html page with tweets as blockquotes."
+    # Convert the tweets individually to html
     tweet_htmls = map(get_html_tweet, tweet_objects)
+
+    # Wrap the tweets in their own div
     rendered_tweets = '</div>\n\n<div>'.join(tweet_htmls).encode('utf-8')
+
+    # Display the number of tweets to be fetched depending on the previous
+    # request -- by default, only show 25, 50, 75.
     select_options = []
     found = False
     for i in [25, 50, 75]:
@@ -31,15 +28,33 @@ def render_html_page(tweet_objects, num):
                                   % str(i))
         else:
             select_options.append('<option>%s</option>' % str(i))
+
+    # If the number was entered manually, the dropdown should show
+    # the correct number of tweets.
     if not found:
         select_options.append('<option selected="selected">%s</option>'
                               % str(num))
-    full_page_html = [(html_template % {"options": '\n'.join(select_options),
+
+    # Why is the response a list?
+    # PEP333: When called by the server, the application object must return an
+    # iterable yielding zero or more strings.
+    # https://www.python.org/dev/peps/pep-0333/#the-start-response-callable
+    full_page_html = [(page_template % {"options": '\n'.join(select_options),
                                         "tweets": rendered_tweets})]
+
     return full_page_html
 
 
-html_template = '''
+tweet_template = '''<blockquote class="twitter-tweet tw-align-center">
+                         %(tweet_text)s
+                        <br/>
+                        <a href="https://twitter.com/%(screen_name)s/status/%(tweet_id)s">
+                            https://twitter.com/%(screen_name)s/status/%(tweet_id)s
+                        </a>
+                    </blockquote>'''
+
+
+page_template = '''
 <!DOCTYPE html>
 <html>
     <head>
