@@ -58,4 +58,6 @@ class TwitterClient:
             # Log the error.
             logging.warning("Could not fetch tweets from Twitter " +
                             "-- please check your credentials.")
+        except KeyboardInterrupt:
+            pass
         return []

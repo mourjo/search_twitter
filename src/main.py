@@ -40,12 +40,14 @@ def main():
         # see credentials_example.json for reference.
         # https://dev.twitter.com/oauth/overview/single-user
         # (Why single user auth? See readme.md.)
-        creds = util.fetch_credentials("credentials.json")
+        creds = util.fetch_credentials("src/credentials.json")
         twitter_client = TwitterClient(**creds)
 
         # Port 80 requires root access -- use Nginx to
         # route traffic from 80 to 8080 instead.
-        httpd = make_server('0.0.0.0', 8080, application)
+        # Allow only traffic coming in via Nginx
+        # (ie only from localhost and not 0.0.0.0).
+        httpd = make_server('localhost', 8080, application)
 
         httpd.serve_forever()
 

@@ -54,6 +54,7 @@ tweet_template = '''<blockquote class="twitter-tweet tw-align-center">
                     </blockquote>'''
 
 
+# Reuse html layout from http://mourjo.me
 page_template = '''
 <!DOCTYPE html>
 <html>
