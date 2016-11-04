@@ -11,7 +11,7 @@ def application(environ, start_response):
     "The main server application using WSGI."
     get_params = parse_qs(environ['QUERY_STRING'])
     try:
-        num = int(escape(get_params.get('num', [''])[0]))
+        num = abs(int(escape(get_params.get('num', [''])[0])))
     except ValueError:
         num = 25
 
