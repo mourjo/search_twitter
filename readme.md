@@ -151,7 +151,8 @@ file named `src/credentials.json` in this form:
 {"consumer_key": "consumer_key",
  "consumer_secret": "consumer_secret",
  "token": "token",
- "token_secret": "token_secret"} ```
+ "token_secret": "token_secret"}
+```
 
 ### Filtering of search results
 The Twitter search API is called to fetch tweets using Twitter's
