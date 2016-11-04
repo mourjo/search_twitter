@@ -50,8 +50,11 @@ server {
 ```
 
 ### Publicly accessible
-There is a publicly accessible instance running at
-[`http://scratch.mourjo.me`](http://scratch.mourjo.me).
+* There is a publicly accessible instance running at
+  [`http://scratch.mourjo.me`](http://scratch.mourjo.me).
+* The code is publicly available at
+  [https://github.com/mourjo/search_twitter](https://github.com/mourjo/search_twitter).
+
 
 
 
@@ -143,9 +146,12 @@ Unit tests are missing from this project for the lack of time.
 ### Credentials
 The credentials must be obtained from
 [dev.twitter.com](https://dev.twitter.com) and should be placed in a
-file named `src/credentials.json` in this form: ```json
-{"consumer_key": "consumer_key", "consumer_secret": "consumer_secret",
-"token": "token", "token_secret": "token_secret"} ```
+file named `src/credentials.json` in this form:
+```
+{"consumer_key": "consumer_key",
+ "consumer_secret": "consumer_secret",
+ "token": "token",
+ "token_secret": "token_secret"} ```
 
 ### Filtering of search results
 The Twitter search API is called to fetch tweets using Twitter's
