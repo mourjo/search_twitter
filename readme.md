@@ -27,15 +27,15 @@ fetch and display Tweets that
 
 ## Running the server
 To run the server locally, two things are necessary:
-1. Install dependencies using `pip install -r
-   requirements.txt`. Preferable to use `virtualenv`.
+
+1. Install dependencies using `make init`. Preferable to use `virtualenv`.
 2. Obtaining access tokens to pre-authenticate the server so as to be
    able to access Twitter APIs. The obtained tokens shoud be placed in
    a file named `src/credentials.json` (the file does not exist by
    default). See `credentials_example.json` for the example
    format. See the Twitter docs on how to obtain the tokens
    [here](https://dev.twitter.com/oauth/overview/application-owner-access-tokens).
-3. Run the server using: `python src/main.py`. The server will listen
+3. Run the server using: `make run`. The server will listen
    on `localhost:8080`.
 4. [Optional] Start Nginx with the following basic config to serve
 requests to port 80:
@@ -130,14 +130,20 @@ no sense in a language like Python which allows functions to be top
 level entities.
 
 ### Dependencies
-One of the requirements of the project was to use minimal dependencies
-and hence the **only dependency** is
+One of the requirements of the project was to use minimal
+dependencies. There is only one dependency for the source, and one for
+the tests.  The source files use
 [a Python library](https://pypi.python.org/pypi/twitter) to call the
 Twitter API. The server, logging and rendering all use native Python
-language constructs.
+language constructs. The unit tests use
+[nose](http://nose.readthedocs.io/en/latest/).
 
-### Absence of unit tests
-Unit tests are missing from this project for the lack of time.
+#### Improvements in tests
+Given more time, Twitter API calls would be mocked to have test coverage.
+
+
+### Unit tests
+Unit tests can be run from the top of the directory using `make test`.
 
 
 
