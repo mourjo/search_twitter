@@ -138,12 +138,12 @@ Twitter API. The server, logging and rendering all use native Python
 language constructs. The unit tests use
 [nose](http://nose.readthedocs.io/en/latest/).
 
-#### Improvements in tests
-Given more time, Twitter API calls would be mocked to have test coverage.
-
 
 ### Unit tests
 Unit tests can be run from the top of the directory using `make test`.
+
+#### Improvements in tests
+Given more time, Twitter API calls would be mocked to have test coverage.
 
 
 
