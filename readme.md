@@ -1,4 +1,4 @@
-# Kayako take-home task
+# Search Twitter for #tag
 
 Write a simple Twitter API client in Python. This client simply has to
 fetch and display Tweets that
