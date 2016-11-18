@@ -1,28 +1,7 @@
 # Search Twitter for #tag
 
-Write a simple Twitter API client in Python. This client simply has to
-fetch and display Tweets that
-* Have been re-tweeted at least once
-* Contain the hashtag `#custserv`
-
-
-## Requirements
-1. **Plan well.** The goal here is not to finish the task as quickly
-   as possible, but to demonstrate your careful thinking and planning.
-2. **Write for the future.** Write your code as if someone else will
-   be working with it the next day. That person should be able to hit
-   the ground running immediately.
-3. **OOP.** You don't have to over-engineer this, but we do expect
-   your small app to be object oriented.
-4. **Craft your code.** At Kayako, we write beautiful code. A big part
-   of code beauty is readability and reusability, which is made up of
-   simple stuff like spacing, layout and consistency.
-5. **Keep dependencies to a minimum.** Importing a twitter
-   SDK/API-client would be sensible for this task, but using a
-   full-featured web framework would probably be overkill.
-6. **Publicly accessible.** Present the solution as a publicly
-   accessible URL.
-
+A simple Twitter API client in Python which simply fetches and 
+displays retweets that contain a hastag.
 
 
 ## Running the server
@@ -48,14 +27,6 @@ server {
    }
 }
 ```
-
-### Publicly accessible
-* There is a publicly accessible instance running at
-  [`http://scratch.mourjo.me`](http://scratch.mourjo.me).
-* The code is publicly available at
-  [https://github.com/mourjo/search_twitter](https://github.com/mourjo/search_twitter).
-
-
 
 
 ## Basic architecture
@@ -102,48 +73,6 @@ server {
  |                     |
  +---------------------+
 ```
-
-
-## Design choices
-
-### Why single-user authentication?
-The server relies on pre-authenticated tokens obtained with
-[single-user OAuth](https://dev.twitter.com/oauth/overview/single-user). This
-means that the server needs access on behalf of a user -- the
-alternative would be to use
-[3-legged authentication](https://dev.twitter.com/oauth/3-legged) but
-it was not used here to keep the server as simple as possible (the
-problem statement asks to make a `simple` Twitter client). Using
-3-legged authentication would require the server to support multiple
-routes -- that would be cumbersome to do without using a Web
-development framework like `Flask` or `Django` (but the requirement
-was to use minimal dependencies).
-
-### OOP
-The server uses a class `TwitterClient` to fetch tweets using the
-Twitter REST API. Other things like, rendering the HTML, utility
-functions are not kept inside a class because it is not
-necessary. Only things that need to be instantiated are done using
-Objects -- like the `TwitterClient` which is instantiated with
-credentials. Having classes and using its static functions only makes
-no sense in a language like Python which allows functions to be top
-level entities.
-
-### Dependencies
-One of the requirements of the project was to use minimal
-dependencies. There is only one dependency for the source, and one for
-the tests.  The source files use
-[a Python library](https://pypi.python.org/pypi/twitter) to call the
-Twitter API. The server, logging and rendering all use native Python
-language constructs. The unit tests use
-[nose](http://nose.readthedocs.io/en/latest/).
-
-
-### Unit tests
-Unit tests can be run from the top of the directory using `make test`.
-
-#### Improvements in tests
-Given more time, Twitter API calls would be mocked to have test coverage.
 
 
 
