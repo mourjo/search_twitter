@@ -9,7 +9,7 @@ def get_html_tweet(tweet):
                              "tweet_id": tweet["id_str"]}
 
 
-def render_html_page(tweet_objects, num):
+def render_html_page(tweet_objects, num, hashtag):
     "Render the full html page with tweets as blockquotes."
     # Convert the tweets individually to html
     tweet_htmls = map(get_html_tweet, tweet_objects)
@@ -24,15 +24,15 @@ def render_html_page(tweet_objects, num):
     for i in [25, 50, 75]:
         if i == num:
             found = True
-            select_options.append('<option selected="selected">%s</option>'
+            select_options.append('<option selected="selected"> %s </option>'
                                   % str(i))
         else:
-            select_options.append('<option>%s</option>' % str(i))
+            select_options.append('<option> %s </option>' % str(i))
 
     # If the number was entered manually, the dropdown should show
     # the correct number of tweets.
     if not found:
-        select_options.append('<option selected="selected">%s</option>'
+        select_options.append('<option selected="selected"> %s </option>'
                               % str(num))
 
     # Why is the response a list?
@@ -40,7 +40,8 @@ def render_html_page(tweet_objects, num):
     # iterable yielding zero or more strings.
     # https://www.python.org/dev/peps/pep-0333/#the-start-response-callable
     full_page_html = [(page_template % {"options": '\n'.join(select_options),
-                                        "tweets": rendered_tweets})]
+                                        "tweets": rendered_tweets,
+                                        "hashtag" : hashtag})]
 
     return full_page_html
 
@@ -117,12 +118,17 @@ page_template = '''
                     </div>
                     <div class="inner cover" style="padding-top: 0px;">
                         <div class="col-md-12" style="vertical-align: middle; text-align: center; ">
-                            <h2 style="margin-top:0px">Retweeted tweets containing #custserv</h2>
-                            <form method="get" action=""  class="form-inline" style="padding-bottom: 30px; font-size: 15px">
-                                <i>Number of tweets: &nbsp;</i>
-                                <select class="dropdown-toggle" name="num" style="color:#1D3956;" onchange="this.form.submit();">
-                                    %(options)s
-                                </select>
+                            <form method="get" action="">
+                                <h2 style="margin-top:0px">Retweeted tweets containing
+                                    <input name="hashtag" type="text" autocomplete="off" value="%(hashtag)s" autofocus="autofocus" id="hashtag" style="background-color: #2d5886; color:white; border-radius: 50px; outline: none; text-align:center; border:2px solid white; max-width:190px" onsubmit="this.form.submit();"/>
+                                </h2>
+                                <div class="form-inline" style="padding-bottom: 30px; font-size: 15px">
+                                    <i> Showing &nbsp; </i>
+                                    <select class="dropdown-toggle" name="num" style="background-color:#1D3956;" onchange="this.form.submit();">
+                                        %(options)s
+                                    </select>
+                                    <i>&nbsp; tweets that were retweeted at least once</i>
+                                </div>
                             </form>
                         </div>
                         <div class="col-md-12" style="vertical-align: middle; text-align: center;">

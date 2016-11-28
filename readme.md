@@ -1,6 +1,6 @@
 # Search Twitter for #tag
 
-A simple Twitter API client in Python which simply fetches and 
+A simple Twitter API client in Python which simply fetches and
 displays retweets that contain a hastag.
 
 

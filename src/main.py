@@ -11,20 +11,22 @@ def application(environ, start_response):
     "The main server application using WSGI."
     get_params = parse_qs(environ['QUERY_STRING'])
     try:
-        num = abs(int(escape(get_params.get('num', [''])[0])))
+        num = abs(int(escape(get_params.get('num', [''])[0]))) or 25
     except ValueError:
         num = 25
 
+    hashtag = escape(get_params.get('hashtag', [''])[0]) or "#throwback"
+
     # Fetch some extra tweets because some tweets will not conform
     # to the search query (wonder why?)
-    tweets = twitter_client.fetch_retweets_with_hashtag("custserv",
-                                                        num+25)[0:num]
+    tweets = twitter_client.fetch_retweets_with_hashtag(hashtag,
+                                                        num + 25)[0:num]
 
     # Recalculate num so that the UI shows exactly the number of tweets
     # that conform to the search query
     num = len(tweets)
 
-    html_page = render_html_page(tweets, num)
+    html_page = render_html_page(tweets, num, hashtag)
     response_headers = [('Content-Type', 'text/html')]
     start_response('200 OK', response_headers)
 
@@ -47,7 +49,7 @@ def main():
         # route traffic from 80 to 8080 instead.
         # Allow only traffic coming in via Nginx
         # (ie only from localhost and not 0.0.0.0).
-        httpd = make_server('localhost', 8080, application)
+        httpd = make_server('localhost', 8081, application)
 
         httpd.serve_forever()
 
