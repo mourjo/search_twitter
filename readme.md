@@ -15,7 +15,7 @@ To run the server locally, two things are necessary:
    format. See the Twitter docs on how to obtain the tokens
    [here](https://dev.twitter.com/oauth/overview/application-owner-access-tokens).
 3. Run the server using: `make run`. The server will listen
-   on `localhost:8080`.
+   on `localhost:8081`.
 4. [Optional] Start Nginx with the following basic config to serve
 requests to port 80:
 ```
@@ -23,7 +23,7 @@ server {
    listen          80;
    server_name     <server_name>;
    location / {
-      proxy_pass   http://0.0.0.0:8080; # forward to python server on port 80
+      proxy_pass   http://0.0.0.0:8081; # forward to python server on port 80
    }
 }
 ```
